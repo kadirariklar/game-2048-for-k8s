@@ -13,7 +13,7 @@ This project demonstrates how to:
 
 By the end, you will be able to open your browser at `http://2048.local` and play the game directly from your local Kubernetes environment.
 
-## <span style="color:#15993F">Prerequisites </span> 🌐
+## <span style="color:#15993F">Prerequisites </span> 📋
 
 Before starting, make sure you have the following installed on your machine:
 
@@ -219,7 +219,7 @@ helm uninstall game-2048
 
 ```
 
-## 🧹 Delete KIND Cluster
+### 🧹 Delete KIND Cluster
 
 If you want to remove your KIND cluster after completing all steps, you can safely delete it.  
 This will remove all resources and containers created by KIND, freeing up system resources.
@@ -229,6 +229,9 @@ kind delete cluster --name cluster-local
 ```
 
 <hr>
+<hr>
+
+## 🔀 Traffic Flow Overview
 
 ![alt text](<Traffic Flow.png>)
 
