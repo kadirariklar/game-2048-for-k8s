@@ -59,9 +59,9 @@ kubectl get nodes
 
 #You should see output similar to:
 
-NAME                 STATUS   ROLES           AGE   VERSION
-cluster-local        Ready    control-plane   1m    v1.34.0
-cluster-local-worker Ready    <none>          1m    v1.34.0
+NAME                           STATUS   ROLES           AGE   VERSION
+cluster-local-control-plane    Ready    control-plane   1m    v1.34.0
+cluster-local-worker           Ready    <none>          1m    v1.34.0
 
 # Make sure all nodes have "STATUS: Ready" before proceeding.
 ```
@@ -164,7 +164,6 @@ kubectl get pods,svc,ingress
 
 NAME                                READY   STATUS    RESTARTS   AGE
 pod/game-2048-xxxxxxxxxx-xxxxx      1/1     Running   0          1m
-pod/ingress-nginx-controller-xxxxx  1/1     Running   0          5m
 
 NAME                 TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE
 svc/game-2048        ClusterIP   10.96.x.x      <none>        80/TCP    1m
