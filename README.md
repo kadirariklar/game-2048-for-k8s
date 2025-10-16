@@ -183,6 +183,8 @@ ingress.networking.k8s.io/game-2048-ingress   nginx   2048.local   localhost 80 
 
 ### <span style="color:#8CA4BD">Deploy with Helm (Optional)</span>
 
+Before Helm installation, it is recommended to run **kubectl delete -f .** in the same directory (/k8s/manifests) to remove any previously applied Kubernetes manifests.
+
 ```bash
 # Navigate to the Helm chart directory:
 
@@ -211,6 +213,19 @@ ingress.networking.k8s.io/2048   nginx   2048.local    localhost 80      1m
 
 You should see the classic 2048 game running.
 
+# To uninstall the release, use the following command:
+
+helm uninstall game-2048
+
+```
+
+## 🧹 Delete KIND Cluster
+
+If you want to remove your KIND cluster after completing all steps, you can safely delete it.  
+This will remove all resources and containers created by KIND, freeing up system resources.
+
+```bash
+kind delete cluster --name cluster-local
 ```
 
 <hr>
