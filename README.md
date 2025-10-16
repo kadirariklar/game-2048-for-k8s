@@ -17,10 +17,10 @@ By the end, you will be able to open your browser at `http://2048.local` and pla
 
 Before starting, make sure you have the following installed on your machine:
 
-- **Docker** – to run KIND nodes and pull Docker images. (Docker Desktop can be used.)
+- **Docker** – to run KIND nodes and build the Docker image. (Docker Desktop can be used.)
 - **KIND** – to create a local Kubernetes cluster.
 - **kubectl** – to interact with the Kubernetes cluster.
-- **Helm** – to deploy the 2048 game via the Helm chart. (Optional for Helm instal)
+- **Helm** – to deploy the 2048 game via the Helm chart. (Optional for Helm installation)
 - **Git** – to clone this repository.
 - **A web browser** – to access the game at `http://2048.local`.
 
@@ -71,19 +71,25 @@ Build the Docker image using the provided Dockerfile and make it available to th
 
 ```bash
 # Build the Docker image
-cd ../2048-game/  # Navigate to the folder containing the Dockerfile and 2048 game files
+cd ../2048-game/  # Navigate to the folder containing the Dockerfile and 2048 game files.
 docker build -t game-2048-image .
 
-# Load the image into the KIND cluster so it can be used by your deployments
+# Load the image into the KIND cluster so it can be used by the deployments.
+
 # Make sure to set the --name parameter to match your KIND cluster name (e.g., cluster-local)
+
 kind load docker-image game-2048-image --name cluster-local
+
+# Note: The --name parameter must match the name of your KIND cluster (cluster-local in this setup), otherwise the cluster will not see the image and your pods may fail with ImagePullBackOff.
+
 ```
 Note: The --name parameter must match the name of your KIND cluster (cluster-local in this setup), otherwise the cluster will not see the image and your pods may fail with ImagePullBackOff.
 
 ### <span style="color:#128236">Step 4: Deploy NGINX Ingress Controller</span>
 
-To make your 2048 web app accessible via a hostname (e.g., `2048.local`) without using `kubectl port-forward`, you need an **Ingress controller**.  
-We will deploy the **NGINX Ingress Controller** to handle incoming HTTP requests and route them to your service.
+To make your 2048 web app accessible via a hostname (e.g., `2048.local`), this project uses an **Ingress controller (NGINX)** to expose the Service outside the cluster.
+ 
+We will deploy the **NGINX Ingress Controller** to handle incoming HTTP requests and route them to the application service.
 
 Deploy the controller using the following command:
 
@@ -110,7 +116,7 @@ Expected output:
 NAME    CONTROLLER
 nginx   k8s.io/ingress-nginx
 
-# Make sure the controller pod is **Running** and the Ingress class **nginx** exists before proceeding.
+# Make sure the controller pod is Running and the Ingress class (nginx) exists before proceeding.
 ```
 
 ### <span style="color:#128236">Step 5: Add Local Host Entry</span> 
