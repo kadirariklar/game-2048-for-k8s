@@ -1,0 +1,18 @@
+replicaCount: 2
+
+image:
+  repository: game-2048-image
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  host: 2048.local
+  ingressClassName: nginx
+  path: /
+  pathType: Prefix
+

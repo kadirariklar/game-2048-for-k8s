@@ -1,38 +1,216 @@
-# 2048
-A small clone of [1024](https://play.google.com/store/apps/details?id=com.veewo.a1024), based on [Saming's 2048](http://saming.fr/p/2048/) (also a clone). 2048 was indirectly inspired by [Threes](https://asherv.com/threes/).
+# <span style="color:#1ABD4E">2048 Game on Kubernetes</span> 🎮☸️
 
-Made just for fun. [Play it here!](http://gabrielecirulli.github.io/2048/)
+## <span style="color:#15993F">Project Purpose</span> 🌟
 
-The official app can also be found on the [Play Store](https://play.google.com/store/apps/details?id=com.gabrielecirulli.app2048) and [App Store!](https://itunes.apple.com/us/app/2048-by-gabriele-cirulli/id868076805)
+The goal of this project is to **containerize and deploy the classic 2048 web game** on a local Kubernetes cluster using **KIND (Kubernetes IN Docker)**.  
 
-### Contributions
+This project demonstrates how to:
 
-[Anna Harren](https://github.com/iirelu/) and [sigod](https://github.com/sigod) are maintainers for this repository.
+- Run the classic 2048 web game by **building our own Docker image** from the forked repository [gabrielecirulli/2048](https://github.com/gabrielecirulli/2048) and **writing our own Dockerfile**.
+- Deploy it with **Kubernetes manifests** or **Helm**.
+- Expose the application via **Ingress** for browser access.
+- Run a **local Kubernetes cluster** easily using KIND.
 
-Other notable contributors:
+By the end, you will be able to open your browser at `http://2048.local` and play the game directly from your local Kubernetes environment.
 
- - [TimPetricola](https://github.com/TimPetricola) added best score storage
- - [chrisprice](https://github.com/chrisprice) added custom code for swipe handling on mobile
- - [marcingajda](https://github.com/marcingajda) made swipes work on Windows Phone
- - [mgarciaisaia](https://github.com/mgarciaisaia) added support for Android 2.3
+## <span style="color:#15993F">Prerequisites </span> 🌐
 
-Many thanks to [rayhaanj](https://github.com/rayhaanj), [Mechazawa](https://github.com/Mechazawa), [grant](https://github.com/grant), [remram44](https://github.com/remram44) and [ghoullier](https://github.com/ghoullier) for the many other good contributions.
+Before starting, make sure you have the following installed on your machine:
 
-### Screenshot
+- **Docker** – to run KIND nodes and pull Docker images. (Docker Desktop can be used.)
+- **KIND** – to create a local Kubernetes cluster.
+- **kubectl** – to interact with the Kubernetes cluster.
+- **Helm** – to deploy the 2048 game via the Helm chart. (Optional for Helm instal)
+- **Git** – to clone this repository.
+- **A web browser** – to access the game at `http://2048.local`.
 
-<p align="center">
-  <img src="https://cloud.githubusercontent.com/assets/1175750/8614312/280e5dc2-26f1-11e5-9f1f-5891c3ca8b26.png" alt="Screenshot"/>
-</p>
+## <span style="color:#15993F">Step-by-Step Installation</span> 🛠️
 
-That screenshot is fake, by the way. I never reached 2048 :smile:
+### <span style="color:#128236">Step 1: Clone the repository</span>
+Clone this repository to your local machine:
 
-## Contributing
-Changes and improvements are more than welcome! Feel free to fork and open a pull request. Please make your changes in a specific branch and request to pull into `master`! If you can, please make sure the game fully works before sending the PR, as that will help speed up the process.
+```bash
+git clone https://github.com/kadirariklar/game-2048-for-k8s.git
+cd game-2048-for-k8s
+```
 
-You can find the same information in the [contributing guide.](https://github.com/gabrielecirulli/2048/blob/master/CONTRIBUTING.md)
 
-## License
-2048 is licensed under the [MIT license.](https://github.com/gabrielecirulli/2048/blob/master/LICENSE.txt)
+### <span style="color:#128236">Step 2: Create a KIND Cluster</span>
+Create a KIND cluster
 
-## Donations
-I made this in my spare time, and it's hosted on GitHub (which means I don't have any hosting costs), but if you enjoyed the game and feel like buying me coffee, you can donate at my BTC address: `1Ec6onfsQmoP9kkL3zkpB6c5sA4PVcXU2i`. Thank you very much!
+> **Note:** For the Ingress controller we will set up later, the `extraPortMappings` parameter needs to be added for the worker node in the `kind-config.yaml` to avoid port-forwarding the service.  
+
+The cluster has been created with **one master and one worker node**.  
+If a different cluster configuration is desired, the `kind-config.yaml` can be edited accordingly.
+
+
+```bash
+cd k8s # Navigate to the k8s folder
+kind create cluster --config kind-config.yaml
+```
+
+Verify the nodes:
+
+Check that all nodes are ready:
+
+```bash
+kubectl get nodes
+
+
+#You should see output similar to:
+
+NAME                 STATUS   ROLES           AGE   VERSION
+cluster-local        Ready    control-plane   1m    v1.34.0
+cluster-local-worker Ready    <none>          1m    v1.34.0
+
+# Make sure all nodes have "STATUS: Ready" before proceeding.
+```
+
+### <span style="color:#128236">Step 3: Build Docker Image and Load into KIND Cluster</span>
+Build the Docker image using the provided Dockerfile and make it available to the KIND cluster:
+
+```bash
+# Build the Docker image
+cd ../2048-game/  # Navigate to the folder containing the Dockerfile and 2048 game files
+docker build -t game-2048-image .
+
+# Load the image into the KIND cluster so it can be used by your deployments
+# Make sure to set the --name parameter to match your KIND cluster name (e.g., cluster-local)
+kind load docker-image game-2048-image --name cluster-local
+```
+Note: The --name parameter must match the name of your KIND cluster (cluster-local in this setup), otherwise the cluster will not see the image and your pods may fail with ImagePullBackOff.
+
+### <span style="color:#128236">Step 4: Deploy NGINX Ingress Controller</span>
+
+To make your 2048 web app accessible via a hostname (e.g., `2048.local`) without using `kubectl port-forward`, you need an **Ingress controller**.  
+We will deploy the **NGINX Ingress Controller** to handle incoming HTTP requests and route them to your service.
+
+Deploy the controller using the following command:
+
+```bash
+kubectl apply -f https://kind.sigs.k8s.io/examples/ingress/deploy-ingress-nginx.yaml
+
+# Check that the Ingress pods are running:
+
+kubectl get pods -n ingress-nginx
+
+# You should see output similar to:
+
+NAME                                        READY   STATUS      RESTARTS   AGE
+ingress-nginx-controller-xxxxxxxxxx-xxxxx   1/1     Running     0          1m
+ingress-nginx-admission-create-xxxxx        0/1     Completed   0          1m
+ingress-nginx-admission-patch-xxxxx         0/1     Completed   0          1m
+
+# Check that the Ingress class exists:
+
+kubectl get ingressclass
+
+Expected output:
+
+NAME    CONTROLLER
+nginx   k8s.io/ingress-nginx
+
+# Make sure the controller pod is **Running** and the Ingress class **nginx** exists before proceeding.
+```
+
+### <span style="color:#128236">Step 5: Add Local Host Entry</span> 
+
+To access your 2048 web app via the hostname `2048.local` in your browser, you need to map this hostname to `127.0.0.1` in your system's hosts file. This ensures that requests to `2048.local` are routed to your local KIND cluster.
+
+**On macOS and Linux:**
+
+```bash
+sudo sh -c 'echo "127.0.0.1 2048.local" >> /etc/hosts'
+```
+
+**On Windows OS:**
+
+Open the hosts file as Administrator located at:
+
+```bash
+C:\Windows\System32\drivers\etc\hosts
+```
+
+Add the following line at the end of the file:
+
+```bash
+127.0.0.1 2048.local
+```
+
+Save the file.
+
+### <span style="color:#128236">Step 6: Deploy the 2048 Application and Access It</span>  
+
+Navigate to the `Manifests` folder where your Kubernetes manifests are located:
+
+```bash
+cd ../k8s/manifests # Navigate to the manifest folder containing k8s manifest not Helm templates.
+
+# Deploy the application, service, and ingress:
+
+kubectl apply -f .
+
+# Verify that the pods are running:
+
+kubectl get pods,svc,ingress
+
+# Expected output:
+
+NAME                                READY   STATUS    RESTARTS   AGE
+pod/game-2048-xxxxxxxxxx-xxxxx      1/1     Running   0          1m
+pod/ingress-nginx-controller-xxxxx  1/1     Running   0          5m
+
+NAME                 TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE
+svc/game-2048        ClusterIP   10.96.x.x      <none>        80/TCP    1m
+svc/kubernetes       ClusterIP   10.96.x.x      <none>        443/TCP   10m
+
+NAME                                          CLASS   HOSTS        ADDRESS   PORTS   AGE
+ingress.networking.k8s.io/game-2048-ingress   nginx   2048.local   localhost 80      1m
+
+# Once all pods are Running and services/ingress are active, open your browser and navigate to:
+```
+<a>http://2048.local</a>
+
+
+**You should see the classic 2048 game running.**
+
+<hr>
+
+### <span style="color:#8CA4BD">Deploy with Helm (Optional)</span>
+
+```bash
+# Navigate to the Helm chart directory:
+
+cd ../helm-2048
+
+# Install the Helm chart:
+
+helm install game-2048 .
+
+kubectl get all
+
+# Expected output:
+
+NAME                                  READY   STATUS    RESTARTS   AGE
+pod/game-2048-xxxxxxxxxx-xxxxx        1/1     Running   0          1m
+
+NAME                     TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
+service/game-2048        ClusterIP   10.96.123.45     <none>        80/TCP    1m
+
+NAME                             CLASS   HOSTS         ADDRESS   PORTS   AGE
+ingress.networking.k8s.io/2048   nginx   2048.local    localhost 80      1m
+
+# Once all pods are in the Running state, open your browser and visit:
+
+👉 http://2048.local
+
+You should see the classic 2048 game running.
+
+```
+
+<hr>
+
+![alt text](<Traffic Flow.png>)
+
+
+
