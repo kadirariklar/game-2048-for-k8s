@@ -194,7 +194,7 @@ cd ../helm-2048
 
 helm install game-2048 .
 
-kubectl get all
+kubectl get pods,svc,ingress
 
 # Expected output:
 
