@@ -38,7 +38,8 @@ cd game-2048-for-k8s
 ### <span style="color:#128236">Step 2: Create a KIND Cluster</span>
 Create a KIND cluster
 
-> **Note:** For the Ingress controller we will set up later, the `extraPortMappings` parameter needs to be added for the worker node in the `kind-config.yaml` to avoid port-forwarding the service.  
+> **Note:** For the Ingress controller we will set up later, the `extraPortMappings` parameter needs to be added for the worker node in the `kind-config.yaml` to expose the service externally without using `kubectl port-forward` or NodePort.
+ 
 
 The cluster has been created with **one master and one worker node**.  
 If a different cluster configuration is desired, the `kind-config.yaml` can be edited accordingly.
