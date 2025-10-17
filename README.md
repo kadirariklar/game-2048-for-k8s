@@ -83,10 +83,10 @@ docker build -t game-2048-image .
 
 kind load docker-image game-2048-image --name cluster-local
 
-# Note: The --name parameter must match the name of your KIND cluster (cluster-local in this setup), otherwise the cluster will not see the image and your pods may fail with ImagePullBackOff.
+
 
 ```
-Note: The --name parameter must match the name of your KIND cluster (cluster-local in this setup), otherwise the cluster will not see the image and your pods may fail with ImagePullBackOff.
+> **Note:** The --name parameter must match the name of your KIND cluster (cluster-local in this setup), otherwise the cluster will not see the image and your pods may fail with ImagePullBackOff.
 
 ### <span style="color:#128236">Step 4: Deploy NGINX Ingress Controller</span>
 
