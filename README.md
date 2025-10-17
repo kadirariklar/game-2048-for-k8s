@@ -15,7 +15,9 @@ By the end, you will be able to open your browser at `http://2048.local` and pla
 
 ## <span style="color:#15993F">Prerequisites </span> 📋
 
-Before starting, make sure you have the following installed on your machine:
+Before starting, make sure you have **administrator/root privileges** on your operating system, as some commands (like Docker setup or KIND node creation) may require elevated permissions.
+
+You will also need the following tools installed:
 
 - **Docker** – to run KIND nodes and build the Docker image. (Docker Desktop can be used.)
 - **KIND** – to create a local Kubernetes cluster.
