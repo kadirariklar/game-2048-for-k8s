@@ -559,7 +559,6 @@ graph TD
 
 ## End-to-End Request Lifecycle in Kubernetes
 
-```mermaid
 %%{init: {
   "theme": "base",
   "themeVariables": {
@@ -574,13 +573,13 @@ graph TD
   }
 }}%%
 flowchart TD
-    Browser["Web Browser<br><sub>http://2048.local</sub>"]:::client
+    Browser["Web Browser\nhttp://2048.local"]:::client
     DNS["🧭 DNS Resolver"]:::infra
-    Docker["🐳 Docker Engine<br><sub>Host Port :80</sub>"]:::infra
-    Ingress["🚪 Ingress Controller<br><sub>nginx</sub>"]:::k8s
-    Rule["📘 Ingress Resource<br><sub>Host: 2048.local</sub>"]:::k8s
-    Service["ClusterIP Service<br><sub>game-2048-service</sub>"]:::k8s
-    Pod["📦 Pod<br><sub>game-2048</sub>"]:::k8s
+    Docker["🐳 Docker Engine\nHost Port :80"]:::infra
+    Ingress["🚪 Ingress Controller\nnginx"]:::k8s
+    Rule["📘 Ingress Resource\nHost: 2048.local"]:::k8s
+    Service["ClusterIP Service\ngame-2048-service"]:::k8s
+    Pod["📦 Pod\ngame-2048"]:::k8s
 
     %% Vertical flow
     Browser -->|"1. DNS Lookup"| DNS
@@ -599,6 +598,7 @@ flowchart TD
     classDef client fill:#3B82F6,stroke:#1E40AF,color:#FFFFFF,rx:10,ry:10,stroke-width:2px;
     classDef infra fill:#60A5FA,stroke:#1E3A8A,color:#FFFFFF,rx:10,ry:10,stroke-width:2px;
     classDef k8s fill:#1E3A8A,stroke:#0F172A,color:#FFFFFF,rx:10,ry:10,stroke-width:2px;
+
 
 ```
 
