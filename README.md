@@ -469,6 +469,9 @@ Navigate to the `scripts` directory inside the project.
   - **Cause:** Ingress Controller is not running or port mapping is missing.  
   - **Check:** Inspect ingress pods with `kubectl get pods -n ingress-nginx` and service ports with `kubectl get svc -n ingress-nginx`.
 
+> **Note:** HTTPS access is not available because no SSL/TLS certificate is configured.  
+> Make sure you are using **http://2048.local** (not https) when accessing the game from your browser.
+
 ---
 
 ## 2048-on-KIND Project Structure
