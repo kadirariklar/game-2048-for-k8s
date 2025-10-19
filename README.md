@@ -571,17 +571,17 @@ graph TD
     "edgeLabelBackground": "#1E293B",
     "lineColor": "#64748B",
     "fontFamily": "Inter, sans-serif",
-    "fontSize": "11px"
+    "fontSize": "12px"
   }
 }}%%
 flowchart TD
-    Browser["Browser<br/>2048.local"]:::client
-    DNS["DNS Resolver"]:::infra
-    Docker["Docker Engine"]:::infra
-    Ingress["Ingress Controller<br/>nginx"]:::k8s
-    Rule["Ingress Rule<br/>2048.local"]:::k8s
-    Service["Service<br/>game-2048"]:::k8s
-    Pod["Pod<br/>game-2048"]:::k8s
+    Browser["🌐 Browser<br/>2048.local"]:::client
+    DNS["🖧 DNS Resolver"]:::infra
+    Docker["🐳 Docker Engine"]:::infra
+    Ingress["🚪 Ingress Controller<br/>nginx"]:::k8s
+    Rule["📜 Ingress Rule<br/>2048.local"]:::k8s
+    Service["🖥️ Service<br/>game-2048"]:::k8s
+    Pod["🎮 Pod<br/>game-2048"]:::k8s
 
     %% Vertical flow
     Browser -->|"1. DNS"| DNS
@@ -597,19 +597,18 @@ flowchart TD
     Docker -->|"8. Return"| Browser
 
     %% Style
-    classDef client fill:#3B82F6,stroke:#1E40AF,color:#FFFFFF,rx:6,ry:6,stroke-width:1px,text-align:center;
-    classDef infra fill:#60A5FA,stroke:#1E3A8A,color:#FFFFFF,rx:6,ry:6,stroke-width:1px,text-align:center;
-    classDef k8s fill:#1E3A8A,stroke:#0F172A,color:#FFFFFF,rx:6,ry:6,stroke-width:1px,text-align:center;
+    classDef client fill:#3B82F6,stroke:#1E40AF,color:#FFFFFF,rx:8,ry:8,stroke-width:2px,text-align:center;
+    classDef infra fill:#60A5FA,stroke:#1E3A8A,color:#FFFFFF,rx:8,ry:8,stroke-width:2px,text-align:center;
+    classDef k8s fill:#1E3A8A,stroke:#0F172A,color:#FFFFFF,rx:8,ry:8,stroke-width:2px,text-align:center;
 
-    %% Reduce node height (less internal margin)
-    style Browser padding:2px 4px;
-    style DNS padding:2px 4px;
-    style Docker padding:2px 4px;
-    style Ingress padding:2px 4px;
-    style Rule padding:2px 4px;
-    style Service padding:2px 4px;
-    style Pod padding:2px 4px;
-
+    %% Node size
+    style Browser width:180px;
+    style DNS width:180px;
+    style Docker width:180px;
+    style Ingress width:200px;
+    style Rule width:200px;
+    style Service width:180px;
+    style Pod width:180px;
 
 ```
 
