@@ -559,6 +559,7 @@ graph TD
 
 ## End-to-End Request Lifecycle in Kubernetes
 
+```mermaid
 %%{init: {
   "theme": "base",
   "themeVariables": {
