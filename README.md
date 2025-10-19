@@ -571,17 +571,17 @@ graph TD
     "edgeLabelBackground": "#1E293B",
     "lineColor": "#64748B",
     "fontFamily": "Inter, sans-serif",
-    "fontSize": "11px"
+    "fontSize": "7px"
   }
 }}%%
 flowchart TD
-    Browser["Browser<br/>2048.local"]:::client
-    DNS["DNS Resolver"]:::infra
-    Docker["Docker Engine<br/>Port 80"]:::infra
-    Ingress["Ingress Controller<br/>nginx"]:::k8s
-    Rule["Ingress Rule<br/>2048.local"]:::k8s
-    Service["Service<br/>game-2048"]:::k8s
-    Pod["Pod<br/>game-2048"]:::k8s
+    Browser["🌐 Browser<br/>2048.local"]:::client
+    DNS["🧭 DNS Resolver"]:::infra
+    Docker["🐳 Docker Engine<br/>Port 80"]:::infra
+    Ingress["🚪 Ingress Controller<br/>nginx"]:::k8s
+    Rule["📜 Ingress Rule<br/>2048.local"]:::k8s
+    Service["⚡ Service<br/>game-2048"]:::k8s
+    Pod["🎮 Pod<br/>game-2048"]:::k8s
 
     %% Vertical flow
     Browser -->|"1. DNS"| DNS
@@ -600,6 +600,7 @@ flowchart TD
     classDef client fill:#3B82F6,stroke:#1E40AF,color:#FFFFFF,rx:6,ry:6,stroke-width:1px;
     classDef infra fill:#60A5FA,stroke:#1E3A8A,color:#FFFFFF,rx:6,ry:6,stroke-width:1px;
     classDef k8s fill:#1E3A8A,stroke:#0F172A,color:#FFFFFF,rx:6,ry:6,stroke-width:1px;
+
 
 ```
 
