@@ -514,44 +514,44 @@ game-2048-for-k8s/
 
 ```mermaid
 graph TD
-    classDef host fill:#5DADE2,stroke:#1B4F72,stroke-width:2px,color:white
-    classDef controlNode fill:#2874A6,stroke:#1B4F72,stroke-width:2px,color:white
-    classDef workerNode fill:#1A5276,stroke:#154360,stroke-width:2px,color:white
-    classDef svc fill:#2E86C1,stroke:#1B4F72,stroke-width:2px,color:white
-    classDef pod fill:#1B4F72,stroke:#154360,stroke-width:2px,color:white
+classDef host fill:#5DADE2,stroke:#1B4F72,stroke-width:2px,color:white
+classDef controlNode fill:#2874A6,stroke:#1B4F72,stroke-width:2px,color:white
+classDef workerNode fill:#1A5276,stroke:#154360,stroke-width:2px,color:white
+classDef svc fill:#2E86C1,stroke:#1B4F72,stroke-width:2px,color:white
+classDef pod fill:#1B4F72,stroke:#154360,stroke-width:2px,color:white
 
-    %% Host
-    subgraph Host_Machine
-        Browser[Web Browser]:::host
-        DockerEngine[Docker Engine]:::host
-        DNSResolver[DNS Resolver]:::host
+%% Host
+subgraph "Host Machine"
+    Browser[Web Browser]:::host
+    DockerEngine[Docker Engine]:::host
+    DNSResolver[DNS Resolver]:::host
+end
+
+%% Cluster
+subgraph "KIND Cluster"
+    subgraph "Control Plane Node"
+        IngressController[Ingress Controller]:::controlNode
+        APIServer[Kubernetes API Server]:::controlNode
     end
 
-    %% Cluster
-    subgraph KIND_Cluster
-        subgraph Control_Plane_Node
-            IngressController[Ingress Controller]:::controlNode
-            APIServer[Kubernetes API Server]:::controlNode
-        end
-
-        subgraph Worker_Node
-            subgraph default_Namespace
-                Service[ClusterIP Service - 2048 Game]:::svc
-                Pod1[game-2048 Pod 1]:::pod
-                Pod2[game-2048 Pod 2]:::pod
-            end
+    subgraph "Worker Node"
+        subgraph "Default Namespace"
+            Service[ClusterIP Service - 2048 Game]:::svc
+            Pod1[game-2048 Pod 1]:::pod
+            Pod2[game-2048 Pod 2]:::pod
         end
     end
+end
 
-    %% Connections
-    Browser -->|HTTP request to 2048.local| DNSResolver
-    DNSResolver --> DockerEngine
-    DockerEngine -->|Port mapping| IngressController
-    IngressController -->|Route / | Service
-    Service -->|Load balance| Pod1
-    Service -->|Load balance| Pod2
-    APIServer -->|Cluster management| Pod1
-    APIServer -->|Cluster management| Pod2
+%% Connections
+Browser -->|HTTP request to 2048.local| DNSResolver
+DNSResolver --> DockerEngine
+DockerEngine -->|Port mapping| IngressController
+IngressController -->|Route / | Service
+Service -->|Load balance| Pod1
+Service -->|Load balance| Pod2
+APIServer -->|Cluster management| Pod1
+APIServer -->|Cluster management| Pod2
 ```
 
 ---
