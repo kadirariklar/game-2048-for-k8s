@@ -366,6 +366,9 @@ helm uninstall game-2048
 >
 > **Note:** These scripts are primarily designed for **Linux/macOS** environments.  
 
+> **Important Note:** If you previously performed a manual deployment and didn’t delete the Kubernetes manifests or cluster, you may encounter errors. These scripts are prepared for a **clean installation**.  
+> For cleanup instructions before running the scripts, see [Cleanup & Removing Resources](#cleanup--removing-resources).
+
 After cloning the repository, navigate into the project and run one of the provided scripts with root/admin privileges.
 
 ```bash
