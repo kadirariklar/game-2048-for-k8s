@@ -574,32 +574,31 @@ graph TD
   }
 }}%%
 flowchart TD
-    Browser["Web Browser<br><sub>http://2048.local</sub>"]:::client
-    DNS["🧭 DNS Resolver"]:::infra
-    Docker["🐳 Docker Engine<br><sub>Host Port :80</sub>"]:::infra
-    Ingress["🚪 Ingress Controller<br><sub>nginx</sub>"]:::k8s
-    Rule["📘 Ingress Resource<br><sub>Host: 2048.local</sub>"]:::k8s
-    Service["ClusterIP Service<br><sub>game-2048-service</sub>"]:::k8s
-    Pod["📦 Pod<br><sub>game-2048</sub>"]:::k8s
+    Browser["Browser<br>http://2048.local"]:::client
+    DNS["DNS Resolver"]:::infra
+    Docker["Docker<br>Port 80"]:::infra
+    Ingress["Ingress<br>nginx"]:::k8s
+    Rule["Ingress Rule<br>2048.local"]:::k8s
+    Service["Service<br>game-2048"]:::k8s
+    Pod["Pod<br>game-2048"]:::k8s
 
     %% Vertical flow
-    Browser -->|"1. DNS Lookup"| DNS
-    DNS -->|"2. Resolve Domain"| Docker
-    Docker -->|"3. Forward HTTP Port 80"| Ingress
-    Ingress -->|"4. Match Host Rule"| Rule
-    Rule -->|"5. Route / Path"| Service
-    Service -->|"6. Load Balance"| Pod
-    Pod -->|"7. Response (HTML/CSS/JS)"| Service
+    Browser --> DNS
+    DNS --> Docker
+    Docker --> Ingress
+    Ingress --> Rule
+    Rule --> Service
+    Service --> Pod
+    Pod --> Service
     Service --> Rule
     Rule --> Ingress
     Ingress --> Docker
-    Docker -->|"8. Return Response"| Browser
+    Docker --> Browser
 
     %% Style
     classDef client fill:#3B82F6,stroke:#1E40AF,color:#FFFFFF,rx:30,ry:30,stroke-width:2px,padding:60px;
     classDef infra fill:#60A5FA,stroke:#1E3A8A,color:#FFFFFF,rx:30,ry:30,stroke-width:2px,padding:60px;
     classDef k8s fill:#1E3A8A,stroke:#0F172A,color:#FFFFFF,rx:30,ry:30,stroke-width:2px,padding:60px;
-
 
 
 ```
