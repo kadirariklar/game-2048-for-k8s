@@ -570,35 +570,36 @@ graph TD
     "clusterBorder": "#1E293B",
     "edgeLabelBackground": "#1E293B",
     "lineColor": "#64748B",
-    "fontFamily": "Inter, sans-serif"
+    "fontFamily": "Inter, sans-serif",
+    "fontSize": "12px"
   }
 }}%%
 flowchart TD
-    Browser["Web Browser\nhttp://2048.local"]:::client
-    DNS["🧭 DNS Resolver"]:::infra
-    Docker["🐳 Docker Engine\nHost Port :80"]:::infra
-    Ingress["🚪 Ingress Controller\nnginx"]:::k8s
-    Rule["📘 Ingress Resource\nHost: 2048.local"]:::k8s
-    Service["ClusterIP Service\ngame-2048-service"]:::k8s
-    Pod["📦 Pod\ngame-2048"]:::k8s
+    Browser["Browser<br/>2048.local"]:::client
+    DNS["DNS Resolver"]:::infra
+    Docker["Docker Engine<br/>Port 80"]:::infra
+    Ingress["Ingress Controller<br/>nginx"]:::k8s
+    Rule["Ingress Rule<br/>2048.local"]:::k8s
+    Service["Service<br/>game-2048"]:::k8s
+    Pod["Pod<br/>game-2048"]:::k8s
 
     %% Vertical flow
-    Browser -->|"1. DNS Lookup"| DNS
-    DNS -->|"2. Resolve Domain"| Docker
-    Docker -->|"3. Forward HTTP Port 80"| Ingress
-    Ingress -->|"4. Match Host Rule"| Rule
-    Rule -->|"5. Route / Path"| Service
-    Service -->|"6. Load Balance"| Pod
-    Pod -->|"7. Response (HTML/CSS/JS)"| Service
+    Browser -->|"1. DNS"| DNS
+    DNS -->|"2. Resolve"| Docker
+    Docker -->|"3. Forward"| Ingress
+    Ingress -->|"4. Match"| Rule
+    Rule -->|"5. Route"| Service
+    Service -->|"6. Load"| Pod
+    Pod -->|"7. Response"| Service
     Service --> Rule
     Rule --> Ingress
     Ingress --> Docker
-    Docker -->|"8. Return Response"| Browser
+    Docker -->|"8. Return"| Browser
 
     %% Style
-    classDef client fill:#3B82F6,stroke:#1E40AF,color:#FFFFFF,rx:10,ry:10,stroke-width:2px;
-    classDef infra fill:#60A5FA,stroke:#1E3A8A,color:#FFFFFF,rx:10,ry:10,stroke-width:2px;
-    classDef k8s fill:#1E3A8A,stroke:#0F172A,color:#FFFFFF,rx:10,ry:10,stroke-width:2px;
+    classDef client fill:#3B82F6,stroke:#1E40AF,color:#FFFFFF,rx:8,ry:8,stroke-width:1px;
+    classDef infra fill:#60A5FA,stroke:#1E3A8A,color:#FFFFFF,rx:8,ry:8,stroke-width:1px;
+    classDef k8s fill:#1E3A8A,stroke:#0F172A,color:#FFFFFF,rx:8,ry:8,stroke-width:1px;
 
 ```
 
