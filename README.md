@@ -40,7 +40,6 @@ It demonstrates containerization, Kubernetes orchestration, Helm deployments, an
 - [Troubleshooting](#troubleshooting)
 - [Project Structure](#2048-on-kind-project-structure)
 - [System Architecture Overview](#system-architecture-overview)
-- [End-to-End Request Lifecycle](#end-to-end-request-lifecycle-in-kubernetes)
 - [Project Highlights & Architecture Insights](#project-highlights--architecture-insights)
 - [License ](#license)
 
@@ -553,54 +552,6 @@ graph TD
     Service -->|Load balance| Pod2
     APIServer -->|Cluster management| Pod1
     APIServer -->|Cluster management| Pod2
-```
-
----
-
-## End-to-End Request Lifecycle in Kubernetes
-
-```mermaid
-%%{init: {
-  "theme": "base",
-  "themeVariables": {
-    "primaryColor": "#2563EB",
-    "primaryTextColor": "#FFFFFF",
-    "primaryBorderColor": "#1E40AF",
-    "clusterBkg": "#0F172A",
-    "clusterBorder": "#1E293B",
-    "edgeLabelBackground": "#1E293B",
-    "lineColor": "#64748B",
-    "fontFamily": "Inter, sans-serif"
-  }
-}}%%
-flowchart TD
-    Browser["Browser<br>http://2048.local"]:::client
-    DNS["DNS Resolver"]:::infra
-    Docker["Docker<br>Port 80"]:::infra
-    Ingress["Ingress<br>nginx"]:::k8s
-    Rule["Ingress Rule<br>2048.local"]:::k8s
-    Service["Service<br>game-2048"]:::k8s
-    Pod["Pod<br>game-2048"]:::k8s
-
-    %% Vertical flow
-    Browser --> DNS
-    DNS --> Docker
-    Docker --> Ingress
-    Ingress --> Rule
-    Rule --> Service
-    Service --> Pod
-    Pod --> Service
-    Service --> Rule
-    Rule --> Ingress
-    Ingress --> Docker
-    Docker --> Browser
-
-    %% Style
-    classDef client fill:#3B82F6,stroke:#1E40AF,color:#FFFFFF,rx:30,ry:30,stroke-width:2px,padding:60px;
-    classDef infra fill:#60A5FA,stroke:#1E3A8A,color:#FFFFFF,rx:30,ry:30,stroke-width:2px,padding:60px;
-    classDef k8s fill:#1E3A8A,stroke:#0F172A,color:#FFFFFF,rx:30,ry:30,stroke-width:2px,padding:60px;
-
-
 ```
 
 ---
