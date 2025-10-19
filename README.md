@@ -559,6 +559,7 @@ graph TD
 
 ## End-to-End Request Lifecycle in Kubernetes
 
+```mermaid
 %%{init: {
   "theme": "base",
   "themeVariables": {
@@ -598,7 +599,6 @@ flowchart TD
     classDef client fill:#3B82F6,stroke:#1E40AF,color:#FFFFFF,rx:10,ry:10,stroke-width:2px;
     classDef infra fill:#60A5FA,stroke:#1E3A8A,color:#FFFFFF,rx:10,ry:10,stroke-width:2px;
     classDef k8s fill:#1E3A8A,stroke:#0F172A,color:#FFFFFF,rx:10,ry:10,stroke-width:2px;
-
 
 ```
 
