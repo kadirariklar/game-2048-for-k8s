@@ -1,8 +1,6 @@
 FROM nginx:alpine
 
-WORKDIR /usr/share/nginx/html
-
-COPY . .
+COPY app/ /usr/share/nginx/html/
 
 EXPOSE 80
 

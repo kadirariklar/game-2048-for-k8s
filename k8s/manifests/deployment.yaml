@@ -6,16 +6,38 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: "game-2048"
+      app: game-2048
   template:
     metadata:
       labels:
-        app: "game-2048"
+        app: game-2048
     spec:
       containers:
-        - name: "game-2048"
-          image: "game-2048-image"
+        - name: game-2048
+          image: game-2048-image
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
-
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "250m"
+              memory: "256Mi"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 2
+            periodSeconds: 5
+            timeoutSeconds: 1
+            failureThreshold: 3

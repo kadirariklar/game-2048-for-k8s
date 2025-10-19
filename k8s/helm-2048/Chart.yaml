@@ -3,4 +3,6 @@ name: 2048-helm
 description: Helm chart for 2048 game
 version: 0.1.0
 appVersion: "latest"
+maintainers:
+  - name: Kadir Arıklar
 

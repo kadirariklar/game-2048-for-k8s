@@ -5,6 +5,30 @@ image:
   tag: latest
   pullPolicy: IfNotPresent
 
+resources:
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+  limits:
+    cpu: "250m"
+    memory: "256Mi"
+
+probes:
+  liveness:
+    path: /
+    port: 80
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 2
+    failureThreshold: 3
+  readiness:
+    path: /
+    port: 80
+    initialDelaySeconds: 2
+    periodSeconds: 5
+    timeoutSeconds: 1
+    failureThreshold: 3
+
 service:
   type: ClusterIP
   port: 80
@@ -15,4 +39,3 @@ ingress:
   ingressClassName: nginx
   path: /
   pathType: Prefix
-
