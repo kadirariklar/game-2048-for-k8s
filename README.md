@@ -86,7 +86,6 @@ You will also need the following tools installed:
 **Notes:**
 - **Installation instructions for all the tools listed above can be found via the provided links. Please refer to the official documentation for detailed setup steps.**
 
-- Docker Desktop 4.47+ is recommended to avoid security issues.
 - Helm is used to deploy and manage the 2048 game easily by packaging all Kubernetes manifests into a single chart.
 
 <br>
