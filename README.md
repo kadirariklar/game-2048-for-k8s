@@ -575,13 +575,13 @@ graph TD
   }
 }}%%
 flowchart TD
-    Browser["🌐 Browser<br/>2048.local"]:::client
-    DNS["🧭 DNS Resolver"]:::infra
-    Docker["🐳 Docker Engine<br/>Port 80"]:::infra
-    Ingress["🚪 Ingress Controller<br/>nginx"]:::k8s
-    Rule["📘 Ingress Rule<br/>2048.local"]:::k8s
-    Service["⚙️ Service<br/>game-2048"]:::k8s
-    Pod["📦 Pod<br/>game-2048"]:::k8s
+    Browser["Browser<br/>2048.local"]:::client
+    DNS["DNS Resolver"]:::infra
+    Docker["Docker Engine<br/>Port 80"]:::infra
+    Ingress["Ingress Controller<br/>nginx"]:::k8s
+    Rule["Ingress Rule<br/>2048.local"]:::k8s
+    Service["Service<br/>game-2048"]:::k8s
+    Pod["Pod<br/>game-2048"]:::k8s
 
     %% Vertical flow
     Browser -->|"1. DNS"| DNS
