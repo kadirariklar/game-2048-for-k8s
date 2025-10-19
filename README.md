@@ -570,45 +570,36 @@ graph TD
     "clusterBorder": "#1E293B",
     "edgeLabelBackground": "#1E293B",
     "lineColor": "#64748B",
-    "fontFamily": "Inter, sans-serif",
-    "fontSize": "12px"
+    "fontFamily": "Inter, sans-serif"
   }
 }}%%
 flowchart TD
-    Browser["🌐 Browser<br/>2048.local"]:::client
-    DNS["🖧 DNS Resolver"]:::infra
-    Docker["🐳 Docker Engine"]:::infra
-    Ingress["🚪 Ingress Controller<br/>nginx"]:::k8s
-    Rule["📜 Ingress Rule<br/>2048.local"]:::k8s
-    Service["🖥️ Service<br/>game-2048"]:::k8s
-    Pod["🎮 Pod<br/>game-2048"]:::k8s
+    Browser["Web Browser<br><sub>http://2048.local</sub>"]:::client
+    DNS["🧭 DNS Resolver"]:::infra
+    Docker["🐳 Docker Engine<br><sub>Host Port :80</sub>"]:::infra
+    Ingress["🚪 Ingress Controller<br><sub>nginx</sub>"]:::k8s
+    Rule["📘 Ingress Resource<br><sub>Host: 2048.local</sub>"]:::k8s
+    Service["ClusterIP Service<br><sub>game-2048-service</sub>"]:::k8s
+    Pod["📦 Pod<br><sub>game-2048</sub>"]:::k8s
 
     %% Vertical flow
-    Browser -->|"1. DNS"| DNS
-    DNS -->|"2. Resolve"| Docker
-    Docker -->|"3. Forward"| Ingress
-    Ingress -->|"4. Match"| Rule
-    Rule -->|"5. Route"| Service
-    Service -->|"6. Load"| Pod
-    Pod -->|"7. Response"| Service
+    Browser -->|"1. DNS Lookup"| DNS
+    DNS -->|"2. Resolve Domain"| Docker
+    Docker -->|"3. Forward HTTP Port 80"| Ingress
+    Ingress -->|"4. Match Host Rule"| Rule
+    Rule -->|"5. Route / Path"| Service
+    Service -->|"6. Load Balance"| Pod
+    Pod -->|"7. Response (HTML/CSS/JS)"| Service
     Service --> Rule
     Rule --> Ingress
     Ingress --> Docker
-    Docker -->|"8. Return"| Browser
+    Docker -->|"8. Return Response"| Browser
 
     %% Style
-    classDef client fill:#3B82F6,stroke:#1E40AF,color:#FFFFFF,rx:8,ry:8,stroke-width:2px,text-align:center;
-    classDef infra fill:#60A5FA,stroke:#1E3A8A,color:#FFFFFF,rx:8,ry:8,stroke-width:2px,text-align:center;
-    classDef k8s fill:#1E3A8A,stroke:#0F172A,color:#FFFFFF,rx:8,ry:8,stroke-width:2px,text-align:center;
+    classDef client fill:#3B82F6,stroke:#1E40AF,color:#FFFFFF,rx:15,ry:15,stroke-width:2px,font-size:14px;
+    classDef infra fill:#60A5FA,stroke:#1E3A8A,color:#FFFFFF,rx:15,ry:15,stroke-width:2px,font-size:14px;
+    classDef k8s fill:#1E3A8A,stroke:#0F172A,color:#FFFFFF,rx:15,ry:15,stroke-width:2px,font-size:14px;
 
-    %% Node size
-    style Browser width:180px;
-    style DNS width:180px;
-    style Docker width:180px;
-    style Ingress width:200px;
-    style Rule width:200px;
-    style Service width:180px;
-    style Pod width:180px;
 
 ```
 
